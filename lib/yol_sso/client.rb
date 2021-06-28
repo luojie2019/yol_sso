@@ -1,7 +1,7 @@
 require "monitor"
 require "redis"
 require 'digest/md5'
-module Sso
+module YolSso
   class Client
 
     include Connection::Base
