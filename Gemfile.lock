@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sso (0.0.1)
+    yol_sso (0.0.1)
       multi_xml
       nokogiri
       roxml
@@ -38,7 +38,7 @@ PLATFORMS
 DEPENDENCIES
   bundler
   rake
-  sso!
+  yol_sso!
 
 BUNDLED WITH
    2.1.4
