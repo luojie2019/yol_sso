@@ -5,8 +5,7 @@ module YolSso
         http_post(send_url, body.merge("agentid": agentid))
       end
 
-      def deal_message(message_id)
-        body = {agentid: agentid, message_id: message_id}
+      def deal_message(body)
         http_post(deal_url, body.merge("agentid": agentid))
       end
 
