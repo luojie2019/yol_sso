@@ -1,19 +1,19 @@
 require "monitor"
 require "redis"
 require 'digest/md5'
-module YolSso
+module YolSso 
   class Client
 
     include Connection::Base
     include Connection::Message
+    include Connection::User
     
-    attr_accessor :host
-
-    attr_accessor :agentid
+    attr_accessor :host, :agentid, :redis
 
     def initialize(options = {})
-      @host = options[:host] || Sso.configuration.host
-      @agentid = options[:agentid] || Sso.configuration.agentid
+      @host = options[:host] || YolSso.configuration.host
+      @agentid = options[:agentid] || YolSso.configuration.agentid
+      @redis  = options[:redis]  || YolSso.configuration.redis
     end
   end
 end
