@@ -5,6 +5,14 @@ module YolSso
         JSON.parse(redis.get("userinfo_#{userid}")) rescue nil
       end
 
+      def get_menus(userid)
+        JSON.parse(redis.get("menus_#{agentid}_#{userid}")) rescue nil
+      end
+
+      def get_apli_list(userid)
+        JSON.parse(redis.get("accesses_#{agentid}_#{userid}")) rescue nil
+      end
+
       private
 
       def send_url
