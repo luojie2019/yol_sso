@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    yol_sso (0.0.1)
+    yol_sso (0.0.5)
       multi_xml
       nokogiri
       roxml
@@ -20,7 +20,7 @@ GEM
       concurrent-ruby (~> 1.0)
     minitest (5.14.4)
     multi_xml (0.6.0)
-    nokogiri (1.11.7-x86_64-darwin)
+    nokogiri (1.12.4-x86_64-darwin)
       racc (~> 1.4)
     racc (1.5.2)
     rake (13.0.1)
