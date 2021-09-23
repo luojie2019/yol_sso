@@ -18,20 +18,28 @@ module YolSso
         handle_res(res)
       end
 
+      def http_get(path, params)
+        uri = URI.join(host, path)
+        req = Net::HTTP.new(uri.host, uri.port)
+        header = {'token': get_access_token}
+        req.use_ssl = true if uri.scheme == 'https'
+        uri.query = URI.encode_www_form(params)
+        res = req.get("#{uri.path}?#{uri.query}", header)
+        handle_res(res)
+      end
+
       def get_access_token
         if redis.nil?
-          access_token_res = get_token(corpid, secret)
-          access_token = access_token_res["access_token"] rescue nil
+          access_token = get_token(corpsecret)
         else
-          access_token = redis.get("qywx_access_token")
+          access_token = redis.get("sso_access_token")
           if access_token.nil?
-            access_token_res = get_token(corpid, secret)
-            access_token = access_token_res["access_token"] rescue nil
+            access_token = get_token(corpsecret)
             if access_token.nil?
-              raise Exception.new("QyWeixin access token authorize false, corpid: #{corpid}")
+              raise Exception.new("Sso access token authorize false, corpsecret: #{corpsecret}")
             else
-              redis.set("qywx_access_token", access_token)
-              redis.expire("qywx_access_token", 7200)
+              redis.set("sso_access_token", access_token)
+              redis.expire("sso_access_token", 7200)
             end
           end
         end
@@ -40,12 +48,8 @@ module YolSso
 
       private
 
-      def get_token(app_id, app_secret)
-        http_get(token_url(app_id, app_secret))
-      end
-
-      def token_url(corpid, secret)
-        "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=#{corpid}&corpsecret=#{secret}"
+      def get_token(corpsecret)
+        JWT.encode({exp: (Time.now+7200).to_i}, corpsecret, 'HS256') rescue nil
       end
 
       def handle_res(res)

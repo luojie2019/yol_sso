@@ -5,6 +5,10 @@ module YolSso
         JSON.parse(redis.get("userinfo_#{userid}")) rescue nil
       end
 
+      def get_users(params)
+        http_get(users_path, params)
+      end
+
       def get_menus(userid)
         JSON.parse(redis.get("menus_#{agentid}_#{userid}")) rescue nil
       end
@@ -15,8 +19,8 @@ module YolSso
 
       private
 
-      def send_url
-        "#{host}messages"
+      def users_path
+        "open_api/users"
       end
     end
   end
